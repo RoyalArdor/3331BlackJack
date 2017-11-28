@@ -1,4 +1,4 @@
 #include "Players.h"
 
-Players(int number, double balance = 1000.00) :
-    PlayerNumber(number), Balance(balance) {}
+Players::Players(int number)
+    : PlayerNumber(number), Balance(1000.00) {}

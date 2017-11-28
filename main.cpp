@@ -3,27 +3,19 @@
 using namespace std;
 
 #include "Players.h"
-
+#include "BlackJack.h"
 // Global vector
 vector<int> PlayerNumber;
 
-int NumOfPlayers();
 int main()
 {
-    cout << "============================" << endl;
-    cout << "=  Welcome to BlackJack!!  =" << endl;
-    cout << "============================" << endl;
+    BlackJack::printIntro();
+    BlackJack::SetNumOfPlayers();
 
-    // Get amount of players
-    int playerCount = NumOfPlayers();
-    for(size_t i = 0; i < PlayerNumber.size(); i++){
-        PlayerNumber.push_back(new Player i);
-    }
-}
+//    for(size_t i = 0; i < PlayerNumber.size(); i++){
+//        PlayerNumber.push_back(new Players(i));
+//    }
 
-int NumOfPlayers(){
-    int count;
-    cout << "How many players? (up to 5): ";
-    cin >>  count;
-    return count;
+//pause
+system("Pause");
 }
