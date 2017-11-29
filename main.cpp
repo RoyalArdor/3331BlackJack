@@ -1,24 +1,25 @@
-#include <iostream>
 #include <vector>
+#include <iostream>
+#include <random>
+#include <array>
+#include "BlackJack.h"
+#include "Dealer.h"
+#include "Player.h"
+#include "Card.h"
+#include "Deck.h"
+
 using namespace std;
 
-#include "Players.h"
-#include "BlackJack.h"
-// Global vector
-vector<Players> PlayerNumber;
+int BlackJack::playerCount = 0;
+vector<Player> BlackJack::players;
 
-int main()
-{
-    BlackJack::printIntro();
-    BlackJack::SetNumOfPlayers();
-    Players *temp;
-    for(size_t i = 0; i < BlackJack::GetNumOfPlayers(); i++){
-            temp = new Players(i+1);
-        PlayerNumber.push_back(*temp);
-        cout << "\n" << i+1 << endl;
-    }
-
-//pause
-system("Pause");
+int main(){
+    Dealer d;
+    BlackJack::PrintIntro();
+    BlackJack::GetPlayerCount();
+    d.initialDeal(BlackJack::players);
+    cout<< "Printing\n";
+    cout << User(d);
+//    BlackJack::PrintTable();
+    system("Pause");
 }
-
