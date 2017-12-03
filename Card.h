@@ -1,31 +1,60 @@
 #ifndef CARD_H
 #define CARD_H
+#include <vector>
 #include <iostream>
-#include <string>
+#include <array>
 using namespace std;
-//Card class
+
 class Card {
-public:
-    enum class Face { TWO, THREE, FOUR, FIVE, SIX,
-            SEVEN, EIGHT, NINE, TEN, JACK, QUEEN,
-            KING, ACE, ENDFACE };
-
-    Card(Face f){
-        _face = f;
+  public:
+    Card(int _faceValue){
+      faceValue = _faceValue;
     }
-    Card(Face f, bool r){
-        _face = f;
-        _revealed = r;
-    }
-    void setFace(Face f){_face = f;}
-    Face getFace()const{return _face;}
-    int getFaceValue()const{return int(_face);}
-    bool isRevealed()const{return _revealed;}
-    void setRevealed(bool r){_revealed = r;}
 
-private:
-    Face _face;
-    bool _revealed = false;
+    Card(int _faceValue, bool _revealed){
+      faceValue = _faceValue;
+      revealed = _revealed;
+    }
+    
+    friend ostream& operator<<(ostream& os, const Card& c){
+      if (c.revealed){
+        os << c.faceValue;
+      }
+      else {
+        os << "?";
+      }
+      return os;
+    }
+
+    static vector<Card> MakeDeck() {
+        array<int,13> _c = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+        vector<Card> _deck;
+        Card* temp;
+        cout << "Making deck...\n";
+        for(int i=0; i<4; i++){
+          // cout << "set " << i+1 << ":\n"
+          //   << "card: ";
+          for(int j=0; j<13; j++){
+            temp = new Card(_c[j]);
+            //  cout << _c[j] << ", ";
+            _deck.push_back(*temp);
+          }
+          // cout << endl;
+        }
+        cout<< "deck finished\n";
+        return _deck;
+    }
+
+    static void FlipCard(Card& c) {
+      // cout << "Flipping: " << c.faceValue << endl;
+      c.revealed = c.revealed ? false: true;
+    }
+
+    int GetCardValue() const{ return faceValue; }
+    
+  private:
+    int faceValue;
+    bool revealed = false;
 };
 
 #endif

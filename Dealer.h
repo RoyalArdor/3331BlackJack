@@ -1,35 +1,49 @@
 #ifndef DEALER_H
 #define DEALER_H
-
-#include <vector>
-#include <iostream>
-#include <string>
-#include "Player.h"
-#include "User.h"
-#include "Deck.h"
+#include "user.h"
+#include "card.h"
+#include "player.h"
+#include <random>
 using namespace std;
-//Dealer that plays against the Players
+
 class Dealer : public User{
-public:
+  public:
     Dealer(){
-        _deck.MakeDeck();
-    };
-    //deal two cards to each player and dealer
-    void initialDeal(vector<Player> players){
-        for(int i = 0; i<2; i++){
-            cout << "initialDeal: dealing card to dealer - " <<i<< "\n";
-            _deck.DealCard(User(*this));
-            for(auto const& p : players){   //for every player deal a card from deck
-                cout << "initialDeal: dealing card to player\n";
-                _deck.DealCard(User(p));
-                p.getHand().at(i).setRevealed(true);    //reveal all player cards
-            }
-        }
-        getHand().at(0).setRevealed(true);  //reveal just one dealer card
+      deck = Card::MakeDeck();
+    }
+    
+    void DealFromDeck(User& player){
+      int deckSize = static_cast<int>(deck.size());
+      int randIndex = rand()%deckSize;
+      // cout << "dealing card from deck: " 
+      //   << deck.at(randIndex).GetCardValue() 
+      //   << endl;
+
+      player.AddCard(deck.at(randIndex));
+      DeleteFromDeck(randIndex);
     }
 
-private:
-    Deck _deck;
-};
+    void DeleteFromDeck(int index){
+      // cout << "deleting card from deck: " 
+      //   << deck.at(index).GetCardValue() 
+      //   << endl;
 
+      deck.erase(deck.begin()+index-1);
+    }
+
+    void AddCard(Card card){
+      hand.push_back(card);
+    }
+
+    vector<Card> GetHand(){ return hand;}
+
+    Card& GetCard(int i){
+      return hand.at(i);
+    }
+
+    int GetDeckSize() const {return deck.size();}
+
+  private:
+    vector<Card> deck;
+};
 #endif
