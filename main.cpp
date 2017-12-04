@@ -259,20 +259,40 @@ void FinalPayout(Dealer d, vector<Player*> p){
     if(p.at(i)->GetStatus()!=Status::BUST){
       for(int j = 0; j < Card::GetHandValues(p.at(i)->GetHand()).size(); j++){
         pDelta = 21 - Card::GetHandValues(p.at(i)->GetHand()).at(j) ;
-        if(pDelta>0){
-          pBest = Card::GetHandValues(p.at(i)->GetHand()).at(j);
-          if(pBest>dealersBest){p.at(i)->AddAnteToBalanceRegularWin(); p.at(i)->SetStatus(Status::WIN);}
-          else if(dealersBest>pBest){p.at(i)->SetAnte(0); p.at(i)->SetStatus(Status::LOSE);}
-          else {p.at(i)->RemoveAnte(p.at(i)->GetAnte()); p.at(i)->SetStatus(Status::TIE);}
+        if(dealersBest<21 ){
+          if(pDelta>0){
+            pBest = Card::GetHandValues(p.at(i)->GetHand()).at(j);
+            if(pBest>dealersBest){
+              p.at(i)->AddAnteToBalanceRegularWin();
+              p.at(i)->SetStatus(Status::WIN);
+              cout<< "branch1: i dont have 21 - win" << endl;
+            }
+            else if(pBest<dealersBest){
+              p.at(i)->SetAnte(0); p.at(i)->SetStatus(Status::LOSE);
+              cout<< "branch1: i dont have 21 - lose" << endl;
+            }
+            else {
+              p.at(i)->RemoveAnte(p.at(i)->GetAnte());
+              p.at(i)->SetStatus(Status::TIE);
+              cout<< "branch1: i dont have 21 - tie" << endl;
+            }
+            break;
+          }
+        }
+        else{
+          cout<< "branch2: i dont have 21 - dealer bust" << endl;
+          p.at(i)->AddAnteToBalanceRegularWin(); p.at(i)->SetStatus(Status::WIN);
           break;
         }
       }
 
       if(p.at(i)->GetStatus() == Status::WAITING && dealersBest!=21){
+        cout<< "branch3: i have 21 - win" << endl;
         p.at(i)->AddAnteToBalanceBlackJackWin();
         p.at(i)->SetStatus(Status::WIN);
       }
-      else{
+      else if(p.at(i)->GetStatus() == Status::WAITING && dealersBest == 21){
+        cout<< "branch3: i have 21 - tie" << endl;
         p.at(i)->SetStatus(Status::TIE);
         p.at(i)->RemoveAnte(p.at(i)->GetAnte());
       }
