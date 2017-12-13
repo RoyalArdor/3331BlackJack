@@ -32,7 +32,8 @@ Blackjack rules:
        must make that decision prior to taking any other action on the hand
   16. When the player is dealt a matching pair of cards, you have the ability to split the
        hand into two separate hands, and play them independently. The rule allows a
-       player to split up to 3 times, making 4 separate hands, with 4 separate bets
+       player to split up to 3 times, making 4 separate hands, with 4 separate bets.
+       
 Routine:
   1. Place bet
   2. Once all the bets are made, the dealer will deal the cards to the players. He'll make
